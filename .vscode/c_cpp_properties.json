@@ -1,0 +1,59 @@
+/* author : Antoine Martin
+ * email : martantoine@tuta.io
+ * date : April 2022
+ * Description : VSCode properties file for C/C++ related configuration (include path, compiler path) to make intellisense works
+ * Compiling with latest version of the ARM Toolchain doesn't seems to work (I tried with GNU Arm Embedded Toolchain 10.3-2021.10) 10.3.1 20210824 (release))
+ * ChibiOS uses deprecated functionnalities of arm-none-eabi-gcc, errors during linking (sample of errors among many the linker doesn't find implementation of _exit _getpid _kill)
+ * The only I found working is the one included with the eclipse epuck2 IDE (which is in my case placed under AppData/Local/Eclipse_e-puck2)
+ */{
+    "configurations": [
+        {
+            "name": "EPUCK2 ARM C",
+            "includePath": [
+                "${config:workplace}//src//",
+                "${config:workplace}//e-puck2_main-processor//src//",
+                "${config:workplace}//e-puck2_main-processor//ChibiOS//os//rt//ports//ARM//compilers//GCC//",
+                "${config:workplace}//e-puck2_main-processor//ChibiOS//os//rt//ports//ARM//",
+                "${config:workplace}//e-puck2_main-processor//ChibiOS//os/hal//include//",
+                "${config:workplace}//e-puck2_main-processor//ChibiOS//os/hal//lib//streams",
+                "${config:workplace}//e-puck2_main-processor//ChibiOS//os/rt//include//",
+                "${config:workplace}//e-puck2_main-processor//ChibiOS//os//hal//osal//rt",
+                "${config:workplace}//e-puck2_main-processor//ChibiOS_ext//os//hal//boards//epuck2//",
+                "${config:workplace}//e-puck2_main-processor//ChibiOS_ext//os//hal//include//",
+                "${config:workplace}//e-puck2_main-processor//ChibiOS//os//common//ports//ARM//devices//LPC214x",
+                "${config:workplace}//e-puck2_main-processor//ChibiOS//os//hal//ports//STM32//STM32F4xx",
+                "${config:workplace}//e-puck2_main-processor//ChibiOS//os//hal//ports//common//ARMCMx",
+                "${config:workplace}//e-puck2_main-processor//ChibiOS//os//hal//ports//STM32//LLD//DACv1",
+                "${config:workplace}//e-puck2_main-processor//ChibiOS//os//hal//ports//STM32//LLD//DMAv1",
+                "${config:workplace}//e-puck2_main-processor//ChibiOS//os//hal//ports//STM32//LLD//GPIOv2",
+                "${config:workplace}//e-puck2_main-processor//ChibiOS//os//hal//ports//STM32//LLD//I2Cv2",
+                "${config:workplace}//e-puck2_main-processor//ChibiOS//os//hal//ports//STM32//LLD//OTGv1",
+                "${config:workplace}//e-puck2_main-processor//ChibiOS//os//hal//ports//STM32//LLD//RTCv2",
+                "${config:workplace}//e-puck2_main-processor//ChibiOS//os//hal//ports//STM32//LLD//SPIv1",
+                "${config:workplace}//e-puck2_main-processor//ChibiOS//os//hal//ports//STM32//LLD//TIMv1",
+                "${config:workplace}//e-puck2_main-processor//ChibiOS//os//hal//ports//STM32//LLD//USARTv2",
+                "${config:workplace}//e-puck2_main-processor//ChibiOS//os//hal//ports//STM32//LLD//USBv1",
+                "${config:workplace}//e-puck2_main-processor//ChibiOS//os//hal//ports//STM32//LLD",
+                "${config:gcc_arm_path}//arm-none-eabi//include",
+                "${config:gcc_arm_path}//lib//gcc//arm-none-eabi//10.3.1//include"
+            ],
+            "defines": [
+                "HAL_USE_PAL",
+                "STM32F407xx",
+                "STM32F0XX"
+            ],
+            "compilerPath": "${config:gcc_arm_path}//bin//arm-none-eabi-gcc.exe",
+            "compilerArgs": [
+                "-mcpu=cortex-m4",
+                "-mthumb",
+                "-mfloat-abi=hard"
+            ],
+            "compileCommands": "${default}",
+            "cStandard": "c99",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "gcc-arm",
+            "configurationProvider": "ms-vscode.makefile-tools"
+        }
+    ],
+    "version": 4
+}

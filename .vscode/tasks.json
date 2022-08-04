@@ -1,0 +1,44 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Make",
+            "type": "shell",
+            "command": "${config:epuck_tools}/gnutools/make.exe",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": "$gcc"
+        },
+        {
+            "label": "Clean",
+            "type": "shell",
+            "command": "${config:epuck_tools}/gnutools/make.exe clean",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Clean libssp",
+            "type": "shell",
+            "command": "${config:epuck_tools}/gnutools/make.exe clean-libssp",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "DFU EPuck-2-Main_Processor (EPuck Monitor)",
+            "type": "shell",
+            "command": "${config:epuck_tools}/dfu-util -d 0483:df11 -a 0 -s 0x08000000 -D ${config:epuck_tools}/tools/e-puck2_main-processor.bin",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}

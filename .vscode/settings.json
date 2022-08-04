@@ -1,0 +1,3 @@
+{
+    "com_port": "COM4" //check the com_port using the device manager (for windows)
+}
