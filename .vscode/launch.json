@@ -30,7 +30,7 @@
             "servertype": "bmp",
             "interface": "swd",
             "device": "STM32F407",
-            "BMPGDBSerialPort" : "COM4", //change to your need
+            "BMPGDBSerialPort" : "${config:com_port}", //change to your need
             "runToMain": true,
             "svdFile": "${config:epuck2_utils}/STM32F407.svd",
             "preLaunchCommands":[
