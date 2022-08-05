@@ -42,7 +42,7 @@
                 "STM32F407xx",
                 "STM32F0XX"
             ],
-            "compilerPath": "${config:gcc_arm_path}//bin//arm-none-eabi-gcc.exe",
+            "compilerPath": "${config:gcc_arm_path_compiler}",
             "compilerArgs": [
                 "-mcpu=cortex-m4",
                 "-mthumb",

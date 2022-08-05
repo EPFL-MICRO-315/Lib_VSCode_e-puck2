@@ -6,7 +6,7 @@
         {
             "label": "Make",
             "type": "shell",
-            "command": "${config:epuck_tools}/gnutools/make.exe",
+            "command": "${config:make_path}",
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -16,7 +16,7 @@
         {
             "label": "Clean",
             "type": "shell",
-            "command": "${config:epuck_tools}/gnutools/make.exe clean",
+            "command": "${config:make_path} clean",
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -25,7 +25,7 @@
         {
             "label": "Clean libssp",
             "type": "shell",
-            "command": "${config:epuck_tools}/gnutools/make.exe clean-libssp",
+            "command": "${config:make_path} clean-libssp",
             "group": {
                 "kind": "build",
                 "isDefault": true

@@ -16,7 +16,7 @@
             "device": "STM32F407",
             "BMPGDBSerialPort" : "${config:com_port}", //change to your need
             "runToMain": true,
-            "svdFile": "${config:epuck_tools}/STM32F407.svd",
+            "svdFile": "${config:epuck2_utils}/STM32F407.svd",
             "preLaunchCommands":[
                 "set mem inaccessible-by-default off",
             ]
@@ -32,7 +32,7 @@
             "device": "STM32F407",
             "BMPGDBSerialPort" : "COM4", //change to your need
             "runToMain": true,
-            "svdFile": "${config:epuck_tools}/STM32F407.svd",
+            "svdFile": "${config:epuck2_utils}/STM32F407.svd",
             "preLaunchCommands":[
                 "set async-remote false",
                 "set remote-timeout 20"
