@@ -1,7 +1,6 @@
 # Introduction
-This repository is used and required by Visual Studio EPuck2.
-This repository should be installed automatically by the Visual Studio EPuck2 script installer.
-Therefore it should not be necessary to this repository manually.
+This repository is used, required and installed automatically by the [Visual Studio Code for e-puck2](https://github.com/epfl-mobots/Create_VSCode_e-puck2) installer.
+Therefore it should not be necessary to clone this repository manually.
 
 # Notes
 For the sake of testing, a project (from https://github.com/martantoine/EMorpuck) is added alonside the e-puck2_main-processor and ST librairies.
