@@ -5,17 +5,32 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "BMP launch",
+            "name": "BMP launch to main",
             "cwd": "${workspaceRoot}/build",
             "executable": "${workspaceRoot}/build/EMorpuck.elf",
             "request": "launch",
             "type": "cortex-debug",
             "servertype": "bmp",
             "interface": "swd",
-            "stopAtEntry": false,
+            "runToEntryPoint": "main",
             "device": "STM32F407",
             "BMPGDBSerialPort" : "${config:com_port}",
-            "runToMain": true,
+            "svdFile": "${config:epuck2_utils}/STM32F407.svd",
+            "preLaunchCommands":[
+                "set mem inaccessible-by-default off",
+            ]
+        },
+        {
+            "name": "BMP launch to reset (PC=0)",
+            "cwd": "${workspaceRoot}/build",
+            "executable": "${workspaceRoot}/build/EMorpuck.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "bmp",
+            "interface": "swd",
+            "breakAfterReset": true,
+            "device": "STM32F407",
+            "BMPGDBSerialPort" : "${config:com_port}",
             "svdFile": "${config:epuck2_utils}/STM32F407.svd",
             "preLaunchCommands":[
                 "set mem inaccessible-by-default off",
@@ -31,9 +46,8 @@
             "interface": "swd",
             "device": "STM32F407",
             "BMPGDBSerialPort" : "${config:com_port}",
-            "runToMain": true,
             "svdFile": "${config:epuck2_utils}/STM32F407.svd",
-            "preLaunchCommands":[
+            "preAttachCommands":[
                 "set async-remote false",
                 "set remote-timeout 20"
             ],
