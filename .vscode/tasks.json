@@ -11,7 +11,10 @@
                 "kind": "build",
                 "isDefault": true
             },
-            "problemMatcher": "$gcc"
+            "problemMatcher": "$gcc",
+            "options": {
+                "cwd": "${workspaceFolder}/e-puck2_main-processor/"
+            }
         },
         {
             "label": "Clean",
@@ -20,15 +23,9 @@
             "group": {
                 "kind": "build",
                 "isDefault": true
-            }
-        },
-        {
-            "label": "Clean libssp",
-            "type": "shell",
-            "command": "${config:make_path} clean-libssp",
-            "group": {
-                "kind": "build",
-                "isDefault": true
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/e-puck2_main-processor/"
             }
         }
     ]

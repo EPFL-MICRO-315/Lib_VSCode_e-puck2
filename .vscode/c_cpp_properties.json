@@ -10,7 +10,7 @@
         {
             "name": "EPUCK2 ARM C",
             "includePath": [
-                "${workspaceFolder}//src//",
+                "${workspaceFolder}//e-puck2_main-processor//src//",
                 "${config:workplace}//Lib//e-puck2_main-processor//src//",
                 "${config:workplace}//Lib//e-puck2_main-processor//ChibiOS//os//rt//ports//ARM//compilers//GCC//",
                 "${config:workplace}//Lib//e-puck2_main-processor//ChibiOS//os//rt//ports//ARM//",

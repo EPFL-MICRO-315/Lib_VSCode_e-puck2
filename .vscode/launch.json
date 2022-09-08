@@ -6,8 +6,8 @@
     "configurations": [
         {
             "name": "BMP launch to main",
-            "cwd": "${workspaceRoot}//build",
-            "executable": "${workspaceRoot}//build//EMorpuck.elf",
+            "cwd": "${workspaceRoot}/e-puck2_main-processor/build",
+            "executable": "${workspaceRoot}/e-puck2_main-processor/build/e-puck2_main-processor.elf",
             "request": "launch",
             "type": "cortex-debug",
             "servertype": "bmp",
@@ -15,15 +15,15 @@
             "runToEntryPoint": "main",
             "device": "STM32F407",
             "BMPGDBSerialPort" : "${config:com_port}",
-            "svdFile": "${config:epuck2_utils}//STM32F407.svd",
+            "svdFile": "${config:epuck2_utils}/STM32F407.svd",
             "preLaunchCommands":[
                 "set mem inaccessible-by-default off",
             ]
         },
         {
             "name": "BMP launch to reset (PC=0)",
-            "cwd": "${workspaceRoot}//build",
-            "executable": "${workspaceRoot}//build//EMorpuck.elf",
+            "cwd": "${workspaceRoot}/e-puck2_main-processor/build",
+            "executable": "${workspaceRoot}/e-puck2_main-processor/build/e-puck2_main-processor.elf",
             "request": "launch",
             "type": "cortex-debug",
             "servertype": "bmp",
@@ -38,8 +38,8 @@
         },
         {
             "name": "BMP attach",
-            "cwd": "${workspaceRoot}//build",
-            "executable": "${workspaceRoot}//build//EMorpuck.elf",
+            "cwd": "${workspaceRoot}/e-puck2_main-processor/build",
+            "executable": "${workspaceRoot}/e-puck2_main-processor/build/e-puck2_main-processor.elf",
             "request": "attach",
             "type": "cortex-debug",
             "servertype": "bmp",
