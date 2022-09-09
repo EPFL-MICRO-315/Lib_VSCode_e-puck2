@@ -299,7 +299,6 @@ $(BUILDDIR)/lib$(PROJECT).a: $(OBJS)
 clean:
 	@echo Cleaning
 	-rm -fR .dep $(BUILDDIR)
-	-rm libssp_nonshared.a libssp.a
 	@echo
 	@echo Done
 
