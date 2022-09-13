@@ -4,9 +4,9 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Make",
+            "label": "Make e-puck2_main-processor",
             "type": "shell",
-            "command": "${config:make_path}",
+            "command": "${config:make_path} -j",
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -17,7 +17,7 @@
             }
         },
         {
-            "label": "Clean",
+            "label": "Clean e-puck2_main-processor",
             "type": "shell",
             "command": "${config:make_path} clean",
             "group": {
@@ -26,6 +26,31 @@
             },
             "options": {
                 "cwd": "${workspaceFolder}/e-puck2_main-processor/"
+            }
+        },
+        {
+            "label": "Make ST",
+            "type": "shell",
+            "command": "${config:make_path} -j",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": "$gcc",
+            "options": {
+                "cwd": "${workspaceFolder}/ST/"
+            }
+        },
+        {
+            "label": "Clean ST",
+            "type": "shell",
+            "command": "${config:make_path} clean",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/ST/"
             }
         }
     ]

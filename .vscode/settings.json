@@ -1,4 +1,4 @@
 {
     "com_port": "\\\\.\\COM14" //check the com_port using the device manager (for windows)
-    //"com_port": "/dev/cu.usbmodemEPUCK1" //check at /dev/ using ls /dev/cu.* (for MacOS & Linux)
+    //"com_port": "/dev/cu.usbmodemEPUCKx" or "/dev/ttyACMx" //check at /dev/ using ls /dev/cu.* (for MacOS & Linux)
 }
