@@ -1,5 +1,4 @@
 /* author : Antoine Martin
- * email : martantoine@tuta.io
  * date : April 2022
  * Description : VSCode properties file for C/C++ related configuration (include path, compiler path) to make intellisense works
  * Compiling with latest version of the ARM Toolchain doesn't seems to work (I tried with GNU Arm Embedded Toolchain 10.3-2021.10) 10.3.1 20210824 (release))
@@ -10,7 +9,6 @@
         {
             "name": "EPUCK2 ARM C",
             "includePath": [
-                "${workspaceFolder}//e-puck2_main-processor//src//",
                 "${config:workplace}//Lib//e-puck2_main-processor//src//",
                 "${config:workplace}//Lib//e-puck2_main-processor//ChibiOS//os//rt//ports//ARM//compilers//GCC//",
                 "${config:workplace}//Lib//e-puck2_main-processor//ChibiOS//os//rt//ports//ARM//",
@@ -34,6 +32,7 @@
                 "${config:workplace}//Lib//e-puck2_main-processor//ChibiOS//os//hal//ports//STM32//LLD//USARTv2",
                 "${config:workplace}//Lib//e-puck2_main-processor//ChibiOS//os//hal//ports//STM32//LLD//USBv1",
                 "${config:workplace}//Lib//e-puck2_main-processor//ChibiOS//os//hal//ports//STM32//LLD",
+                "${config:workplace}//Lib//ST",
                 "${config:gcc_arm_path}//arm-none-eabi//include",
                 "${config:gcc_arm_path}//lib//gcc//arm-none-eabi//10.3.1//include"
             ],

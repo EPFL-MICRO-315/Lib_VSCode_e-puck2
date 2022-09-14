@@ -58,8 +58,8 @@
         },
         {
             "name": "BMP ST launch to main",
-            "cwd": "${workspaceRoot}/ST/build",
-            "executable": "${workspaceRoot}/ST/build/ST.elf",
+            "cwd": "${workspaceRoot}/ST",
+            "executable": "${workspaceRoot}/ST/ST.elf",
             "request": "launch",
             "type": "cortex-debug",
             "servertype": "bmp",
@@ -74,8 +74,8 @@
         },
         {
             "name": "BMP ST launch to reset (PC=0)",
-            "cwd": "${workspaceRoot}/ST/build",
-            "executable": "${workspaceRoot}/ST/build/ST.elf",
+            "cwd": "${workspaceRoot}/ST",
+            "executable": "${workspaceRoot}/ST/ST.elf",
             "request": "launch",
             "type": "cortex-debug",
             "servertype": "bmp",
@@ -90,8 +90,8 @@
         },
         {
             "name": "BMP ST attach",
-            "cwd": "${workspaceRoot}/ST/build",
-            "executable": "${workspaceRoot}/ST/build/ST.elf",
+            "cwd": "${workspaceRoot}/ST",
+            "executable": "${workspaceRoot}/ST/ST.elf",
             "request": "attach",
             "type": "cortex-debug",
             "servertype": "bmp",
