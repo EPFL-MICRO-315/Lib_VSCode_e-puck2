@@ -1,5 +1,5 @@
-#include "stm32f4xx.h"
-#include "system_clock_config.h"
+#include "../stm32f4xx.h"
+#include "../system_clock_config.h"
 
 #define LED1     	GPIOD, 5
 #define LED3     	GPIOD, 6
