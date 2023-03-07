@@ -52,6 +52,30 @@
             "options": {
                 "cwd": "${workspaceFolder}/ST/"
             }
+        },
+        {
+            "label": "Link Librairy e-puck2_main-processor to workspace",
+            "type": "shell",
+            "command": "pwd; ls; if [ -d \"e-puck2_main-processor\" ]; then echo -n -e '\\033[0;91m'Link e-puck2_main-processor already present !; echo '\\033[0m'; echo ; else ln -s ${config:workplace}/Lib/e-puck2_main-processor . ; fi",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
+        },
+        {
+            "label": "Link Librairy ST to Project folder",
+            "type": "shell",
+            "command": "pwd; ls; if [ -d \"ST\" ]; then echo -n -e '\\033[0;91m'Link ST already present !; echo '\\033[0m'; echo ; else ln -s ${config:workplace}/Lib/ST . ; fi",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
         }
     ]
 }
