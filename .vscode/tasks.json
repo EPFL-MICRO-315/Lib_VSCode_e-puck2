@@ -56,7 +56,8 @@
         {
             "label": "Link Librairy e-puck2_main-processor to workspace",
             "type": "shell",
-            "command": "pwd; ls; if [ -d \"e-puck2_main-processor\" ]; then echo -n -e '\\033[0;91m'Link e-puck2_main-processor already present !; echo '\\033[0m'; echo ; else ln -s ${config:workplace}/Lib/e-puck2_main-processor . ; fi",
+            // "command": "if [ -d \"e-puck2_main-processor\" ]; then echo -n -e '\\033[0;91m'Link e-puck2_main-processor already present !; echo '\\033[0m'>>/dev/null; else ln -s ${config:workplace}/Lib/e-puck2_main-processor . ; fi; echo '\n'",
+            "command": "if [ -d \"e-puck2_main-processor\" ]; then echo -n -e '\\033[0;91m'Link e-puck2_main-processor already present \!; echo '\\033[0m'>>/dev/null; echo ; else ln -s ${config:workplace}/Lib/e-puck2_main-processor . ; fi",
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -68,7 +69,7 @@
         {
             "label": "Link Librairy ST to Project folder",
             "type": "shell",
-            "command": "pwd; ls; if [ -d \"ST\" ]; then echo -n -e '\\033[0;91m'Link ST already present !; echo '\\033[0m'; echo ; else ln -s ${config:workplace}/Lib/ST . ; fi",
+            "command": "echo; if [ -d \"ST\" ]; then echo -n -e '\\033[0;91m'Link ST already present \!; echo '\\033[0m'>>/dev/null; echo ; else ln -s ${config:workplace}/Lib/ST . ; fi",
             "group": {
                 "kind": "build",
                 "isDefault": true
