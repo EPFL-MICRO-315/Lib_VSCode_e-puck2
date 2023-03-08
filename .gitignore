@@ -1,0 +1,7 @@
+*.o
+*.d
+ST.elf
+ST.list
+ST.mem
+ST.size
+/.vscode
