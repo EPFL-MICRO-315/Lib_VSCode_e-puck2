@@ -4,7 +4,7 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Make e-puck2_main-processor",
+            "label": "Project e-puck2_main-processor: Make",
             "type": "shell",
             "command": "${config:make_path} -j",
             "group": {
@@ -17,7 +17,7 @@
             }
         },
         {
-            "label": "Clean e-puck2_main-processor",
+            "label": "Project e-puck2_main-processor: Clean",
             "type": "shell",
             "command": "${config:make_path} clean",
             "group": {
@@ -29,7 +29,7 @@
             }
         },
         {
-            "label": "Make ST",
+            "label": "Project ST: Make",
             "type": "shell",
             "command": "${config:make_path} -j",
             "group": {
@@ -42,7 +42,7 @@
             }
         },
         {
-            "label": "Clean ST",
+            "label": "Project ST: Clean",
             "type": "shell",
             "command": "${config:make_path} clean",
             "group": {
@@ -54,28 +54,45 @@
             }
         },
         {
-            "label": "Link Librairy e-puck2_main-processor to workspace",
+            "label": "Tools: DFU EPuck-2-Main_Processor",
             "type": "shell",
-            // "command": "if [ -d \"e-puck2_main-processor\" ]; then echo -n -e '\\033[0;91m'Link e-puck2_main-processor already present !; echo '\\033[0m'>>/dev/null; else ln -s ${config:workplace}/Lib/e-puck2_main-processor . ; fi; echo '\n'",
-            "command": "if [ -d \"e-puck2_main-processor\" ]; then echo -n -e '\\033[0;91m'Link e-puck2_main-processor already present \!; echo '\\033[0m'>>/dev/null; echo ; else ln -s ${config:workplace}/Lib/e-puck2_main-processor . ; fi",
+            "command": "${config:epuck2_utils}//dfu-util.exe -d 0483:df11 -a 0 -s 0x08000000 -D ${config:epuck2_utils}//e-puck2_main-processor.bin",
             "group": {
                 "kind": "build",
                 "isDefault": true
-            },
-            "options": {
-                "cwd": "${workspaceFolder}"
             }
         },
         {
-            "label": "Link Librairy ST to Project folder",
+            "label": "Tools: Run EPuckMonitor",
             "type": "shell",
-            "command": "echo; if [ -d \"ST\" ]; then echo -n -e '\\033[0;91m'Link ST already present \!; echo '\\033[0m'>>/dev/null; echo ; else ln -s ${config:workplace}/Lib/ST . ; fi",
+            "command": "${config:epuck2_utils}//monitor_win//EPuckMonitor.exe",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Tools:Link Library:e-puck2_main-processor)",
+            "type": "shell",
+            "command": "LIB=e-puck2_main-processor; if [ -d \"$LIB\" ] ; then echo -n -e '\\033[0;91m'Link $LIB already present ; echo '\\033[0m'>>/dev/null ; else if [ $WINDIR ] ; then cmd <<< \"mklink /J $LIB ${config:workplaceAS}\\Lib\\$LIB & exit\" ; else ln -s ${config:workplace}/Lib/$LIB . ; fi ; echo -n -e '\\033[1;32m'Link $LIB done ! ; echo '\\033[0m'>>/dev/null ; fi ; echo '\n'",
             "group": {
                 "kind": "build",
                 "isDefault": true
             },
-            "options": {
-                "cwd": "${workspaceFolder}"
+            "presentation": {
+                "echo": false,
+            }
+        },
+        {
+            "label": "Tools:Link Library:ST)",
+            "type": "shell",
+            "command": "LIB=ST; if [ -d \"$LIB\" ] ; then echo -n -e '\\033[0;91m'Link $LIB already present ; echo '\\033[0m'>>/dev/null ; else if [ $WINDIR ] ; then cmd <<< \"mklink /J $LIB ${config:workplaceAS}\\Lib\\$LIB & exit\" ; else ln -s ${config:workplace}/Lib/$LIB . ; fi ; echo -n -e '\\033[1;32m'Link $LIB done ! ; echo '\\033[0m'>>/dev/null ; fi ; echo '\n'",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "echo": false,
             }
         }
     ]
