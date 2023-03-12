@@ -72,7 +72,7 @@
             }
         },
         {
-            "label": "Tools:Link Library:e-puck2_main-processor)",
+            "label": "Tools:Link Library:e-puck2_main-processor",
             "type": "shell",
             "command": "LIB=e-puck2_main-processor; if [ -d \"$LIB\" ] ; then echo -n -e '\\033[0;91m'Link $LIB already present ; echo '\\033[0m'>>/dev/null ; else if [ $WINDIR ] ; then cmd <<< \"mklink /J $LIB ${config:workplaceAS}\\Lib\\$LIB & exit\" ; else ln -s ${config:workplace}/Lib/$LIB . ; fi ; echo -n -e '\\033[1;32m'Link $LIB done ! ; echo '\\033[0m'>>/dev/null ; fi ; echo '\n'",
             "group": {
@@ -84,7 +84,7 @@
             }
         },
         {
-            "label": "Tools:Link Library:ST)",
+            "label": "Tools:Link Library:ST",
             "type": "shell",
             "command": "LIB=ST; if [ -d \"$LIB\" ] ; then echo -n -e '\\033[0;91m'Link $LIB already present ; echo '\\033[0m'>>/dev/null ; else if [ $WINDIR ] ; then cmd <<< \"mklink /J $LIB ${config:workplaceAS}\\Lib\\$LIB & exit\" ; else ln -s ${config:workplace}/Lib/$LIB . ; fi ; echo -n -e '\\033[1;32m'Link $LIB done ! ; echo '\\033[0m'>>/dev/null ; fi ; echo '\n'",
             "group": {
