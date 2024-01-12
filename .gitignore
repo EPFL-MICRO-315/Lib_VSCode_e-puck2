@@ -5,3 +5,4 @@ ST.list
 ST.mem
 ST.size
 /.vscode
+*.DS_Store
