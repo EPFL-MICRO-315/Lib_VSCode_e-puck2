@@ -52,7 +52,7 @@
             "options": {
                 "cwd": "${workspaceFolder}/ST/"
             }
-        },
+        }
         // {
         //     "label": "Tools: DFU EPuck-2-Main_Processor",
         //     "type": "shell",
