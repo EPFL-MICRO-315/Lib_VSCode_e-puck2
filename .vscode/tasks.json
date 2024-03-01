@@ -14,7 +14,13 @@
             "problemMatcher": "$gcc",
             "options": {
                 "cwd": "${workspaceFolder}/e-puck2_main-processor/"
-            }
+                "windows": {
+                    "shell": {
+                        "executable": "cmd.exe",
+                        "args": ["/d", "/C"]
+                    }
+                }
+            },
         },
         {
             "label": "Project e-puck2_main-processor: Clean",
@@ -26,7 +32,13 @@
             },
             "options": {
                 "cwd": "${workspaceFolder}/e-puck2_main-processor/"
-            }
+                "windows": {
+                    "shell": {
+                        "executable": "cmd.exe",
+                        "args": ["/d", "/C"]
+                    }
+                }
+            },
         },
         {
             "label": "Project ST: Make",
@@ -38,8 +50,14 @@
             },
             "problemMatcher": "$gcc",
             "options": {
-                "cwd": "${workspaceFolder}/ST/"
-            }
+                "cwd": "${workspaceFolder}/ST/",
+                "windows": {
+                    "shell": {
+                        "executable": "cmd.exe",
+                        "args": ["/d", "/C"]
+                    }
+                }
+            },
         },
         {
             "label": "Project ST: Clean",
@@ -50,8 +68,14 @@
                 "isDefault": true
             },
             "options": {
-                "cwd": "${workspaceFolder}/ST/"
-            }
+                "cwd": "${workspaceFolder}/ST/",
+                "windows": {
+                    "shell": {
+                        "executable": "cmd.exe",
+                        "args": ["/d", "/C"]
+                    }
+                }
+            },
         }
         // {
         //     "label": "Tools: DFU EPuck-2-Main_Processor",
