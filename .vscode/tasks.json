@@ -76,6 +76,24 @@
                     }
                 }
             },
+        },
+        {
+            "label": "Tools: Update ESP32 firmware",
+            "type": "shell",
+            "command": "python3 UpdateESP32Firmware.py ${config:com_port} ${config:serial_monitor}",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/Tools/",
+                "windows": {
+                    "shell": {
+                        "executable": "cmd.exe",
+                        "args": ["/d", "/C"]
+                    }
+                }
+            },
         }
         // {
         //     "label": "Tools: DFU EPuck-2-Main_Processor",
