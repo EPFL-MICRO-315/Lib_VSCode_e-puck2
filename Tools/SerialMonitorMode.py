@@ -28,7 +28,7 @@ class SerialMonitorMode:
         self.getMode()
         if self.actualMode == mode:
             logger.info(f'\n\
-    Actual mode is already: {smm.getMode()} \n')
+    Actual mode is already: {mode} \n')
         else:
             try:
                 res = sp.run(f'arm-none-eabi-gdb -q -ex "target extended-remote {self.GDBServer_port}" -ex "mon se {mode.code}" -ex "quit"', shell=True, capture_output=True, timeout=2)
