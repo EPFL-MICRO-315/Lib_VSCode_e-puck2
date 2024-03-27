@@ -58,7 +58,11 @@ class SerialMonitorMode:
             elif (mode == self.ASEBA) & (res.stderr.strip().decode('utf-8').count(f"Switched to mode {self.ASEBA.code} : {self.ASEBA.message}") == 1):
                 logger.info('\n    SerialMonitor switched to ASEBA. \n')
             else:
-                logger.error('\n    Problem to select the SerialMonitor switch. Ask for support! \n')
+                logger.error('\n    Problem to select the SerialMonitor switch. \n\
+        - Check if this result message between the 2 "*** ... ***" lines explains the problem or ask for support: \n\
+\n\n*****************   Begin of Result message   ***************** \n\
+{res} \n\
+\n\n*****************   End of Result message   ***************** \n')
                 sys.exit(1)
 
     def getMode(self):        
