@@ -20,9 +20,10 @@ os_name = platform.system()
 
 if __name__ == '__main__':
 
+    logger = logging.getLogger(__name__)
     logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 
-    if(len(sys.argv) <= 1):
+    if(len(sys.argv) <= 2):
         logger.error('\n\
     No argument provided: You must specify in this order: \n\
         - GDB_Server port \n\
@@ -32,7 +33,7 @@ if __name__ == '__main__':
     GDBServer_port = sys.argv[1]
     SerialMonitor_port = sys.argv[2]
 
-    logging.info(f"\n\
+    logger.info(f"\n\
     Python script {sys.argv[0]} called with parameters: \n\
          GDBServer_port = {GDBServer_port} \n\
          SerialMonitor_port = {SerialMonitor_port} \n")
@@ -43,9 +44,9 @@ if __name__ == '__main__':
 
 # Download esptool
     if os.path.exists('esptool'):
-        logging.info("\n    esptool already present but erase and reinstall\n")
+        logger.info("\n    esptool already present but erase and reinstall\n")
         shutil.rmtree('esptool')
-    logging.info("\n    Clone esptool\n")
+    logger.info("\n    Clone esptool\n")
     res = sp.run('git clone --recurse-submodules https://github.com/espressif/esptool', shell=True, text=True, capture_output=True)
     # ToDo : Check the cloning
 
@@ -54,7 +55,7 @@ if __name__ == '__main__':
     cmd = f'python3 esptool/esptool.py --chip esp32 --port {SerialMonitor_port} --baud 115200 --before default_reset --after hard_reset write_flash -z --flash_mode dio --flash_freq 40m --flash_size detect 0x1000 bootloader.bin 0x10000 ESP32_E-Puck_2.bin 0x8000 partitions_singleapp.bin'
     os.environ["PYTHONUNBUFFERED"] = "1"
     Output = io.StringIO()
-    logging.info(f'\n    cmd = {cmd} \n')
+    logger.info(f'\n    cmd = {cmd} \n')
 
     process = sp.Popen(cmd.split(), shell=True, stdout=sp.PIPE, stderr=sp.PIPE, text=True)
 
