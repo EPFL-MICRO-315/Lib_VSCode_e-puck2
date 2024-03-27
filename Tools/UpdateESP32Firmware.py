@@ -25,7 +25,7 @@ if __name__ == '__main__':
 
     if(len(sys.argv) <= 2):
         logger.error('\n\
-    No argument provided: You must specify in this order: \n\
+    Not enough arguments provided: You must specify in this order: \n\
         - GDB_Server port \n\
         - SerialMonitor port \n')
         sys.exit(1)
