@@ -3,13 +3,18 @@ import time
 import platform
 import shutil
 import sys
-import os
+import os, stat
 import subprocess as sp
 import io
 from enum import Enum
 import SerialMonitorMode as SMM
 
 os_name = platform.system()
+
+def remove_readonly(func, path, _):
+    "Clear the readonly bit and reattempt the removal"
+    os.chmod(path, stat.S_IWRITE)
+    func(path)
 
 # if os_name == "Darwin":
 #     monitor_urlEdit.setText("https://projects.gctronic.com/epuck2/monitor_mac.zip")
@@ -45,7 +50,7 @@ if __name__ == '__main__':
 # Download esptool
     if os.path.exists('esptool'):
         logger.info("\n    esptool already present but erase and reinstall\n")
-        shutil.rmtree('esptool')
+        shutil.rmtree('esptool', onerror=remove_readonly)
     logger.info("\n    Clone esptool\n")
     res = sp.run('git clone --recurse-submodules https://github.com/espressif/esptool', shell=True, text=True, capture_output=True)
     # ToDo : Check the cloning
