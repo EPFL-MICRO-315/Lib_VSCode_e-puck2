@@ -78,9 +78,74 @@
             },
         },
         {
-            "label": "Tools: Update ESP32 firmware",
+            "label": "Tools: 1 - SerialMonitor ESP32",
             "type": "shell",
-            "command": "python3 UpdateESP32Firmware.py ${config:com_port} ${config:serial_monitor}",
+            "command": "python3 SerialMonitorMode.py ${config:com_port} '2'",
+            "windows": {
+                "command": "python3 SerialMonitorMode.py '\\${config:com_port}' '2'",
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/Tools/",
+                "windows": {
+                    "shell": {
+                        "executable": "cmd.exe",
+                        "args": ["/d", "/C"]
+                    }
+                }
+            },
+        },
+        {
+            "label": "Tools: 2 - Update ESP32 firmware",
+            "type": "shell",
+            "command": "python3 UpdateESP32Firmware.py ${config:com_port} ${config:serial_monitor} ONLY_UPDATE"
+            ,
+            "windows": {
+                "command": "python3 UpdateESP32Firmware.py '\\${config:com_port}' '\\${config:serial_monitor}' ONLY_UPDATE",
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/Tools/",
+                "windows": {
+                    "shell": {
+                        "executable": "cmd.exe",
+                        "args": ["/d", "/C"]
+                    }
+                }
+            },
+        },
+        {
+            "label": "Tools: 3 - SerialMonitor F407",
+            "type": "shell",
+            "command": "python3 SerialMonitorMode.py ${config:com_port} '1'",
+            "windows": {
+                "command": "python3 SerialMonitorMode.py '\\${config:com_port}' '1'",
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/Tools/",
+                "windows": {
+                    "shell": {
+                        "executable": "cmd.exe",
+                        "args": ["/d", "/C"]
+                    }
+                }
+            },
+        },
+        {
+            "label": "Tools: ESP32 - Update ESP32 firmware - F407",
+            "type": "shell",
+            "command": "python3 UpdateESP32Firmware.py ${config:com_port} ${config:serial_monitor}"
+            ,
             "windows": {
                 "command": "python3 UpdateESP32Firmware.py '\\${config:com_port}' '\\${config:serial_monitor}'",
             },
