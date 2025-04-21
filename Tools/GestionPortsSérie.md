@@ -1,4 +1,4 @@
-Voici les résultats de la commande `python -m serial.tools.list_ports -v` sur les divers OS :
+Voici les résultats de la commande `python -m serial.tools.list_ports -v e-puck2` sur les divers OS :
 
 1. Windows 11
     ```
@@ -28,6 +28,7 @@ Voici les résultats de la commande `python -m serial.tools.list_ports -v` sur l
     ````
 3. Linux Fedora 38
     ```
+    Filtered list with regexp: 'e-puck2'
     /dev/ttyACM0        
         desc: e-puck2 - e-puck2 GDB Server
         hwid: USB VID:PID=1D50:6018 SER=EPUCK LOCATION=1-2.1:1.0
@@ -37,11 +38,7 @@ Voici les résultats de la commande `python -m serial.tools.list_ports -v` sur l
     /dev/ttyACM2        
         desc: e-puck2 STM32F407
         hwid: USB VID:PID=0483:5740 SER=301 LOCATION=1-2.2:1.0
-    /dev/ttyS0          
-        desc: n/a
-        hwid: n/a
-    ...
-    x ports found
+    3 ports found
     ```
 3. MacOS 15.2
     ```

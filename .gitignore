@@ -26,3 +26,6 @@ Thumbs.db
 
 # Python caches
 __pycache__
+
+# esptool used for ESP32 flashing
+# esptool/

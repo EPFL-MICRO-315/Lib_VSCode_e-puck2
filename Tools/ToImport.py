@@ -1,3 +1,3 @@
 import importlib
-import SerialMonitorMode
-SerialMonitorMode.init('/dev/cu.usbmodemEPUCK1')
+import MonitorTools
+MonitorTools.init('/dev/cu.usbmodemEPUCK1')

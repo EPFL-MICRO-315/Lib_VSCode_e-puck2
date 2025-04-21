@@ -7,7 +7,7 @@ import os, stat
 import subprocess as sp
 import io
 from enum import Enum
-import SerialMonitorMode as SMM
+import MonitorTools as MT
 
 os_name = platform.system()
 
@@ -15,6 +15,22 @@ def remove_readonly(func, path, _):
     "Clear the readonly bit and reattempt the removal"
     os.chmod(path, stat.S_IWRITE)
     func(path)
+
+def exitNoEnoughArg():
+    logger.error('\n\
+    Not enough arguments provided: You must specify in this order: \n\
+        - GDB_Server port \n\
+        - SerialMonitor port \n')
+    sys.exit(1)
+
+def exitErrorTimeoutEpired(self, timeout, stderr):
+    logger.error(f' \n\n\
+    Timeout of {timeout} seconds has expired! \n\
+        - Check if this result message between the 2 "*** ... ***" lines explains the problem or ask for support: \n\
+\n\n*****************   Begin of Result message   ***************** \n\
+{stderr.decode("utf-8")} \
+\n\n*****************   End of Result message   ***************** \n')
+    sys.exit(1)
 
 # if os_name == "Darwin":
 #     monitor_urlEdit.setText("https://projects.gctronic.com/epuck2/monitor_mac.zip")
@@ -31,58 +47,52 @@ if __name__ == '__main__':
     OnlyESPUpdate = False
 
     if(len(sys.argv) <= 2):
-        logger.error('\n\
-    Not enough arguments provided: You must specify in this order: \n\
-        - GDB_Server port \n\
-        - SerialMonitor port \n')
-        sys.exit(1)
+        exitNoEnoughArg()
     elif (len(sys.argv) > 3):
         OnlyESPUpdate = sys.argv[3] == 'ONLY_UPDATE'
 
     GDBServer_port = sys.argv[1]
     SerialMonitor_port = sys.argv[2]
 
-    logger.info(f"\n\
-    Python script {sys.argv[0]} called with parameters: \n\
+    logger.info(f"\n    Python script {sys.argv[0]} called with parameters: \n\
          GDBServer_port = {GDBServer_port} \n\
          SerialMonitor_port = {SerialMonitor_port} \n")
 
-    smm = SMM.SerialMonitorMode(GDBServer_port)
+    mt = MT.MonitorTools(GDBServer_port)
 # Change SerialMonitor redirection to ESP32 instead F407
     if not OnlyESPUpdate:
-        smm.selMode(smm.ESP32_230400.code, True)
+        mt.selMode(mt.ESP32_115200.code, True)
         time.sleep(0.5)
 
 # Power ON ESP32 in any case
-    smm.powerOn()
+    mt.powerOn()
     time.sleep(0.5)
 
-# Download esptool
-    if os.path.exists('esptool'):
-        logger.info("\n    esptool already present but erase and reinstall\n")
-        shutil.rmtree('esptool', onerror=remove_readonly)
-    logger.info("\n    Clone esptool\n")
-    res = sp.run('git clone --recurse-submodules https://github.com/espressif/esptool', shell=True, text=True, capture_output=True)
-    # ToDo : Check the cloning
+# Check if esptool package is present
+    try:
+        import esptool
+    except ImportError:
+        print(f'    esptool package not found. Trying to install it...')
+        sp.check_call([sys.executable, '-m', 'pip', 'install', 'esptool'])
+        try:
+            import esptool
+        except ImportError:
+            logger.error("\n    esptool package not found or failed to install. Please install it manually and retry.")
+            sys.exit(1)
+        print(f'    esptool package installed successfully.')
 
 # Program the ESP32
-    cmd = f'python3 esptool/esptool.py --chip esp32 --port {SerialMonitor_port} --baud 115200 --before default_reset --after hard_reset write_flash -z --flash_mode dio --flash_freq 40m --flash_size detect 0x1000 bootloader.bin 0x10000 ESP32_E-Puck_2.bin 0x8000 partitions_singleapp.bin'
+    cmd = f'python3 -m esptool --chip esp32 --port {SerialMonitor_port} --baud 115200 --before default_reset --after hard_reset write_flash -z --flash_mode dio --flash_freq 40m --flash_size detect 0x1000 bootloader.bin 0x10000 ESP32_E-Puck_2.bin 0x8000 partitions_singleapp.bin'
 
 # a) Blind variant - Until the realtime variant works
-    print(f'  -> The ESP32 firmware update is done blindly in order to be able to retrieve the output messages and check the result. \n\tThis can take up to 40 seconds and a timeout is configured to regain control if necessary. \n\t\n\t\t!!!!!!   So please wait   !!!!!! \n')
+    print(f'  -> The ESP32 firmware update is done blindly in order to be able to retrieve the output messages and check the result. \n      This can take up to 40 seconds with a blue led blinking and a timeout is configured to regain control if necessary. \n\t\n\t\t!!!!!!   So please wait   !!!!!! \n')
     res = None
     try:
         res = sp.run(cmd, shell=True, capture_output=True, timeout=40)
 
     except sp.TimeoutExpired as t:
-        logger.error(f' \n\n\
-    Timeout of {t.timeout} seconds has expired! \n\
-        - Check if this result message between the 2 "*** ... ***" lines explains the problem or ask for support: \n\
-\n\n*****************   Begin of Result message   ***************** \n\
-{res.stderr.decode("utf-8")} \
-\n\n*****************   End of Result message   ***************** \n')
-        sys.exit(1)
- 
+        exitErrorTimeoutEpired(t.timeout, res.stderr)
+
     if res.returncode == 2:
         logger.error(f' \n\n\
     Check if the port {GDBServer_port} is correct, the ESP well powered and the USB connection is not interrupted! \n\
@@ -99,14 +109,15 @@ if __name__ == '__main__':
         - Check if this GDB-Server port is not already opened by another process \n')
         sys.exit(1)
     elif res.stdout.count(b'Hash of data verified.') == 3:
-            logger.info('\n    ESP32 firmware well updated.\n')
+        print(f'\n  -> ESP32 firmware well updated.\n')
     else:
-            logger.error('\n\'    Problem to update ESP32 firmware. Ask for support! \n\
+        logger.error(f'\n    Problem to update ESP32 firmware. Ask for support! \n\
         - Check if this result message between the 2 "*** ... ***" lines explains the problem or ask for support: \n\
 \n\n*****************   Begin of Result message   ***************** \n\
-{res.stderr.decode("utf-8")} \
+{res} \
 \n\n*****************   End of Result message   ***************** \n')
-            sys.exit(1)
+        sys.exit(1)
+
 # b) Real time variant but doesn't work !?
     # os.environ["PYTHONUNBUFFERED"] = "1"
     # Output = io.StringIO()
@@ -133,7 +144,11 @@ if __name__ == '__main__':
     time.sleep(0.5)
 
 # Change SerialMonitor redirection to F407
-    smm.selMode(smm.F407.code)
+    mt.selMode(mt.F407.code)
+
+# Power ON ESP32 in any case
+    mt.powerOff()
+    time.sleep(0.5)
 
 # Usefull python commands:
 # import subprocess as sp

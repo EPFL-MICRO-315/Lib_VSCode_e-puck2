@@ -9,7 +9,7 @@ from typing import NamedTuple
 logging.basicConfig(format='%(levelname)-8s [%(filename)s:%(lineno)d] %(message)s', level=logging.WARNING)
 logger = logging.getLogger(__name__)
 
-class SerialMonitorMode:
+class MonitorTools:
     actualMode = None
     GDBServer_port = None
 
@@ -60,15 +60,15 @@ class SerialMonitorMode:
 
     def powerOff(self):
         try:
-            res = sp.run(f'arm-none-eabi-gdb -q -ex "target extended-remote {self.GDBServer_port}" -ex "mon pwr OFF" -ex "quit"', shell=True, capture_output=True, timeout=2)
+            res = sp.run(f'arm-none-eabi-gdb -q -ex "target extended-remote {self.GDBServer_port}" -ex "mon pwr SHUTDOWN" -ex "quit"', shell=True, capture_output=True, timeout=2)
         except sp.TimeoutExpired as t:
-            exitErrorTimeoutEpired(t.timeout)
+            self.exitErrorTimeoutEpired(t.timeout)
 
     def powerOn(self):
         try:
             res = sp.run(f'arm-none-eabi-gdb -q -ex "target extended-remote {self.GDBServer_port}" -ex "mon pwr ON" -ex "quit"', shell=True, capture_output=True, timeout=2)
         except sp.TimeoutExpired as t:
-            exitErrorTimeoutEpired(t.timeout)
+            self.exitErrorTimeoutEpired(t.timeout)
 
     def selMode(self, code, temporary=False):
         actualMode = self.getMode()
@@ -83,22 +83,22 @@ class SerialMonitorMode:
                     res = sp.run(f'arm-none-eabi-gdb -q -ex "target extended-remote {self.GDBServer_port}" -ex "mon se {int(code)}" -ex "quit"', shell=True, capture_output=True, timeout=2)
 
             except sp.TimeoutExpired as t:
-                errorTimeoutEpired(t.timeout, res.stderr)
+                self.errorTimeoutEpired(t.timeout, res.stderr)
             print(f'  ..\n  -> {res.stderr.decode("utf-8")}')
             if res.returncode != 0:
-                exitNoToolError()
+                self.exitNoToolError()
             elif res.stderr.strip().count((f"{self.GDBServer_port}: No such file or directory.").encode('utf-8')) == 1:
                 self.exitGDBServerPortError()
-            elif (code == self.ESP32_115200.code) & (res.stderr.strip().decode('utf-8').count(f"mode {code} -> {self.ESP32_115200.message}") == 1):
+            elif (code == self.ESP32_115200.code) & (res.stderr.strip().decode('utf-8').count(f"mode {code} -> {self.ESP32_115200.message}") >= 1):
                 print('  -> SerialMonitor switched to ESP32_115200 \n')
-            elif (code == self.F407.code) & (res.stderr.strip().decode('utf-8').count(f"mode {code} -> {self.F407.message}") == 1):
+            elif (code == self.F407.code) & (res.stderr.strip().decode('utf-8').count(f"mode {code} -> {self.F407.message}") >= 1):
                 print('  -> SerialMonitor switched to F407 \n')
-            elif (code == self.ESP32_230400.code) & (res.stderr.strip().decode('utf-8').count(f"mode {code} -> {self.ESP32_230400.message}") == 1):
+            elif (code == self.ESP32_230400.code) & (res.stderr.strip().decode('utf-8').count(f"mode {code} -> {self.ESP32_230400.message}") >= 1):
                 print('  -> SerialMonitor switched to ESP32_230400 \n')
-            elif (code == self.ASEBA.code) & (res.stderr.strip().decode('utf-8').count(f"mode {code} -> {self.ASEBA.message}") == 1):
+            elif (code == self.ASEBA.code) & (res.stderr.strip().decode('utf-8').count(f"mode {code} -> {self.ASEBA.message}") >= 1):
                 print('  -> SerialMonitor switched to ASEBA \n')
             else:
-                exitOtherError(res.stderr)
+                self.exitOtherError(res.stderr)
 
     def getMode(self):
         try:
@@ -111,13 +111,13 @@ class SerialMonitorMode:
         elif res.stderr.strip().count((f"{self.GDBServer_port}: No such file or directory.").encode('utf-8')) == 1:
             self.exitGDBServerPortError()
         elif res.stderr.strip().count(('mode 0 -> UART_ESP_PASSTHROUGH_115200').encode('utf-8')) == 1:
-            mode = SerialMonitorMode.ESP32_115200
+            mode = MonitorTools.ESP32_115200
         elif res.stderr.strip().count(('mode 1 -> UART_407_PASSTHROUGH').encode('utf-8')) == 1:
-            mode = SerialMonitorMode.F407
+            mode = MonitorTools.F407
         elif res.stderr.strip().count(('mode 2 -> UART_ESP_PASSTHROUGH_230400').encode('utf-8')) == 1:
-            mode = SerialMonitorMode.ESP32_230400
+            mode = MonitorTools.ESP32_230400
         elif res.stderr.strip().count(('mode 3 -> ASEBA_CAN_TRANSLATOR').encode('utf-8')) == 1:
-            mode = SerialMonitorMode.ASEBA
+            mode = MonitorTools.ASEBA
         else:
             logger.error('\n    Problem to get the SerialMonitor switch. Ask for support! \n')
             sys.exit(1)
@@ -134,22 +134,22 @@ if __name__ == '__main__':
 
     logger.debug(f'\nPython script "{sys.argv[0]}" called as main program with parameters: \n  GDBServer_port = {GDBServer_port}')
 
-    smm = SerialMonitorMode(GDBServer_port)
-    print(f'  ..\n  {smm.getMode()}')
+    mt = MonitorTools(GDBServer_port)
+    print(f'  ..\n  {mt.getMode()}')
 
     temporary = (len(sys.argv) == 4) and (sys.argv[3] == "True")
     
     if(len(sys.argv) >= 3):
         code = sys.argv[2]
         print(f'  ..\n  -> Asked : Code of mode = {code} and Temporary = {temporary}')
-        if (code == smm.ESP32_115200.code):
-            smm.selMode(code, temporary)
-        elif (code == smm.F407.code):
-            smm.selMode(code, temporary)
-        elif code == smm.ESP32_230400.code:
-            smm.selMode(code, temporary)
-        elif code == smm.ASEBA.code:
-            smm.selMode(code, temporary)
+        if (code == mt.ESP32_115200.code):
+            mt.selMode(code, temporary)
+        elif (code == mt.F407.code):
+            mt.selMode(code, temporary)
+        elif code == mt.ESP32_230400.code:
+            mt.selMode(code, temporary)
+        elif code == mt.ASEBA.code:
+            mt.selMode(code, temporary)
         else:
             print("\nYou must specify a code between 0..3 according to:\n\n\t0 = Programming/serial monitor of the ESP at 115200 bauds and GDB over USB,\n\t1 = Serial monitor of the main processor at 115200 bauds and GDB over USB and Bluetooth,\n\t2 = Programming/serial monitor of the ESP at 230400 baud and GDB over USB,\n\t3 = ASEBA CAN-USB translator and GDB over USB and Bluetooth\n\nAdd True or False to activate temporarly or not this mode\n\nIf it's temporarly then it will be lost when robot is power off but that's avoid to unnecessarily modify flash.\n")
 

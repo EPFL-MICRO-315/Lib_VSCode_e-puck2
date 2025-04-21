@@ -78,11 +78,36 @@
             },
         },
         {
-            "label": "Tools: 1 - SerialMonitor ESP32",
+            "label": "Tools: Check Programmer SerialMonitor redirection",
             "type": "shell",
-            "command": "python3 SerialMonitorMode.py ${config:com_port} '2'",
+            "command": "python3 MonitorTools.py ${config:com_port}",
             "windows": {
-                "command": "python3 SerialMonitorMode.py '\\${config:com_port}' '2'",
+                "command": "python3 MonitorTools.py '\\${config:com_port}'",
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/Tools/",
+                "windows": {
+                    "shell": {
+                        "executable": "cmd.exe",
+                        "args": ["/d", "/C"]
+                    }
+                }
+            },
+            "presentation": {
+                "echo": false,
+            }
+        },
+        {
+            "label": "Tools: Update ESP32 firmware",
+            "type": "shell",
+            "command": "python3 UpdateESP32Firmware.py ${config:com_port} ${config:serial_monitor}"
+            ,
+            "windows": {
+                "command": "python3 UpdateESP32Firmware.py '\\${config:com_port}' '\\${config:serial_monitor}'",
             },
             "group": {
                 "kind": "build",
@@ -99,7 +124,50 @@
             },
         },
         {
-            "label": "Tools: 2 - Update ESP32 firmware",
+            "label": "Tools: Power ON",
+            "type": "shell",
+            "command": "python3 UpdateESP32Firmware.py ${config:com_port} ${config:serial_monitor}"
+            ,
+            "windows": {
+                "command": "python3 UpdateESP32Firmware.py '\\${config:com_port}' '\\${config:serial_monitor}'",
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/Tools/",
+                "windows": {
+                    "shell": {
+                        "executable": "cmd.exe",
+                        "args": ["/d", "/C"]
+                    }
+                }
+            },
+        },
+        {
+            "label": "Tools:Programmer: 1. Temporary SerialMonitor -> ESP32_230000",
+            "type": "shell",
+            "command": "python3 MonitorTools.py ${config:com_port} '2' 'True'",
+            "windows": {
+                "command": "python3 MonitorTools.py '\\${config:com_port}' '2' 'True'",
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/Tools/",
+                "windows": {
+                    "shell": {
+                        "executable": "cmd.exe",
+                        "args": ["/d", "/C"]
+                    }
+                }
+            },
+        },
+        {
+            "label": "Tools:Programmer: 2. Only Update ESP32 firmware",
             "type": "shell",
             "command": "python3 UpdateESP32Firmware.py ${config:com_port} ${config:serial_monitor} ONLY_UPDATE"
             ,
@@ -121,11 +189,11 @@
             },
         },
         {
-            "label": "Tools: 3 - SerialMonitor F407",
+            "label": "Tools:Programmer: 3. Force SerialMonitor -> F407",
             "type": "shell",
-            "command": "python3 SerialMonitorMode.py ${config:com_port} '1'",
+            "command": "python3 MonitorTools.py ${config:com_port} '1'",
             "windows": {
-                "command": "python3 SerialMonitorMode.py '\\${config:com_port}' '1'",
+                "command": "python3 MonitorTools.py '\\${config:com_port}' '1'",
             },
             "group": {
                 "kind": "build",
@@ -142,12 +210,11 @@
             },
         },
         {
-            "label": "Tools: ESP32 - Update ESP32 firmware - F407",
+            "label": "Tools: Check Programmer Firmware ",
             "type": "shell",
-            "command": "python3 UpdateESP32Firmware.py ${config:com_port} ${config:serial_monitor}"
-            ,
+            "command": "arm-none-eabi-gdb -q -ex 'target extended-remote ${config:com_port}' -ex 'mon ver' -ex 'quit'",
             "windows": {
-                "command": "python3 UpdateESP32Firmware.py '\\${config:com_port}' '\\${config:serial_monitor}'",
+                "command": "arm-none-eabi-gdb -q -ex 'target extended-remote ${config:com_port}' -ex 'mon ver' -ex 'quit'",
             },
             "group": {
                 "kind": "build",
@@ -162,48 +229,6 @@
                     }
                 }
             },
-        }
-        // {
-        //     "label": "Tools: DFU EPuck-2-Main_Processor",
-        //     "type": "shell",
-        //     "command": "${config:epuck2_utils}//dfu-util.exe -d 0483:df11 -a 0 -s 0x08000000 -D ${config:epuck2_utils}//e-puck2_main-processor.bin",
-        //     "group": {
-        //         "kind": "build",
-        //         "isDefault": true
-        //     }
-        // },
-        // {
-        //     "label": "Tools: Run EPuckMonitor",
-        //     "type": "shell",
-        //     "command": "${config:epuck2_utils}//monitor_win//EPuckMonitor.exe",
-        //     "group": {
-        //         "kind": "build",
-        //         "isDefault": true
-        //     }
-        // },
-        // {
-        //     "label": "Tools:Link Library:e-puck2_main-processor",
-        //     "type": "shell",
-        //     "command": "LIB=e-puck2_main-processor; if [ -d \"$LIB\" ] ; then echo -n -e '\\033[0;91m'Link $LIB already present ; echo '\\033[0m'>>/dev/null ; else if [ $WINDIR ] ; then cmd <<< \"mklink /J $LIB ${config:workplaceAS}\\Lib\\$LIB & exit\" ; else ln -s ${config:workplace}/Lib/$LIB . ; fi ; echo -n -e '\\033[1;32m'Link $LIB done ! ; echo '\\033[0m'>>/dev/null ; fi ; echo '\n'",
-        //     "group": {
-        //         "kind": "build",
-        //         "isDefault": true
-        //     },
-        //     "presentation": {
-        //         "echo": false,
-        //     }
-        // },
-        // {
-        //     "label": "Tools:Link Library:ST",
-        //     "type": "shell",
-        //     "command": "LIB=ST; if [ -d \"$LIB\" ] ; then echo -n -e '\\033[0;91m'Link $LIB already present ; echo '\\033[0m'>>/dev/null ; else if [ $WINDIR ] ; then cmd <<< \"mklink /J $LIB ${config:workplaceAS}\\Lib\\$LIB & exit\" ; else ln -s ${config:workplace}/Lib/$LIB . ; fi ; echo -n -e '\\033[1;32m'Link $LIB done ! ; echo '\\033[0m'>>/dev/null ; fi ; echo '\n'",
-        //     "group": {
-        //         "kind": "build",
-        //         "isDefault": true
-        //     },
-        //     "presentation": {
-        //         "echo": false,
-        //     }
-        // }
+        },
     ]
 }
